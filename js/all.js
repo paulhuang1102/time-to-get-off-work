@@ -23,6 +23,7 @@ var x = setInterval(function () {
         clearInterval(x);
         document.getElementById("clock").innerHTML = "EXPIRED";
         document.querySelector('body').style.backgroundImage = 'url(./img/1.jpg)';
+        data.push(0, 0, 0)
     }
 
 }, 1000);
