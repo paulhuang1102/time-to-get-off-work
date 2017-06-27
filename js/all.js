@@ -1,9 +1,10 @@
 const nowYear = new Date().getFullYear();
 const nowMonth = new Date().getMonth() + 1;
 const nowDate = new Date().getDate();
-const offTime = '17:30';
+const offTime = '17:30'; //Your get off work time
 const theTime = new Date(nowYear + '-' + nowMonth + '-' + nowDate + '-' + offTime).getTime();
 var data = [];
+var totalHours = 8.5; //Your total working hours
 
 var x = setInterval(function () {
     data = [];
@@ -45,7 +46,7 @@ var backgroundS = g.append("path")
 
 var foregroundS = g.append("path")
     .datum({ endAngle: 0 })
-    .style("fill", "orange")
+    .style("fill", "#87B4FF")
     .attr("d", arcS);
 
 
@@ -71,7 +72,7 @@ var backgroundM = g.append("path")
 
 var foregroundM = g.append("path")
     .datum({ endAngle: 0 })
-    .style("fill", "green")
+    .style("fill", "87FFAE")
     .attr("d", arcM);
 
 function arcTweenM(newAngle) {
@@ -96,7 +97,7 @@ var backgroundH = g.append("path")
 
 var foregroundH = g.append("path")
     .datum({ endAngle: 0 })
-    .style("fill", "#0066FF")
+    .style("fill", "#F0E68C")
     .attr("d", arcH);
 
 function arcTweenH(newAngle) {
@@ -120,5 +121,5 @@ d3.interval(function () {
 
     foregroundH.transition()
         .duration(750)
-        .attrTween("d", arcTweenH((1 - data[0] / 8.5) * tau));
+        .attrTween("d", arcTweenH((1 - data[0] / totalHours) * tau));
 }, 1000);
