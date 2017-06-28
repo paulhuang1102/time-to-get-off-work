@@ -123,4 +123,4 @@ d3.interval(function () {
     foregroundH.transition()
         .duration(750)
         .attrTween("d", arcTweenH((1 - data[0] / totalHours) * tau));
-}, 1000);
+}, 300);
