@@ -1,18 +1,26 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Time To Get Off Work!</title>
     <link rel="stylesheet" href="css/all.css">
 
 </head>
+
 <body>
-<div id="clock"></div>
-<svg width="960" height="600"></svg>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="js/all.js"></script>
+    <div class="control">
+        <form id="input-field">
+            <input type="text" placeholder="請輸入時間 e.g.18:00">
+            <button>CountDown</button>
+        </form>
+        <div id="clock"></div>
+    </div>
+    <svg width="800" height="600"></svg>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="js/all.js"></script>
 </body>
+
 </html>

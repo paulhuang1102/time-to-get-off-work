@@ -1,0 +1,22 @@
+{
+    "name": "time-to-get-off-work",
+    "version": "1.0.0",
+    "description": "a clock to counter down",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron main.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/paulhuang1102/time-to-get-off-work.git"
+    },
+    "author": "Paul Huang",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/paulhuang1102/time-to-get-off-work/issues"
+    },
+    "homepage": "https://github.com/paulhuang1102/time-to-get-off-work#readme",
+    "dependencies": {
+        "electron": "^1.7.9"
+    }
+}

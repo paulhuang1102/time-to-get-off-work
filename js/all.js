@@ -1,34 +1,41 @@
+const iField = document.querySelector('#input-field');
+
 const nowYear = new Date().getFullYear();
 const nowMonth = new Date().getMonth() + 1;
 const nowDate = new Date().getDate();
-const offTime = '17:30'; //Your get off work time
-const theTime = new Date(nowYear + '-' + nowMonth + '-' + nowDate + '-' + offTime).getTime();
 var data = [];
-var totalHours = 8.5; //Your total working hours
+var now, distance, totalHours, theTime;
 
-var x = setInterval(function () {
+function counter() {
     data = [];
-    var now = new Date().getTime();
-    var distance = theTime - now;
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    now = new Date().getTime();
+    distance = theTime - now;
 
-    data.push(hours, minutes, seconds);
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    document.getElementById("clock").innerHTML = hours + "h "
-        + minutes + "m " + seconds + "s ";
-
-    if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("clock").innerHTML = "EXPIRED";
-        document.querySelector('body').style.backgroundImage = 'url(./img/1.jpg)';
-        data.push(0, 0, 0)
+    if (hours < 1) {
+        data.push(1, minutes, seconds);
+    } else {
+        data.push(hours, minutes, seconds);
     }
 
-}, 1000);
+    document.getElementById("clock").innerHTML = hours + "h " +
+        minutes + "m " + seconds + "s ";
 
-var tau = 2 * Math.PI;
+    if (distance < 0) {
+        document.getElementById("clock").innerHTML = "EXPIRED";
+        document.querySelector('body').style.backgroundImage = 'url(./img/1.jpg)';
+        data.push(0, 0, 0);
+        return;
+    }
+
+    requestAnimationFrame(counter);
+
+}
+
+const tau = 2 * Math.PI;
 
 var arcS = d3.arc()
     .innerRadius(240)
@@ -52,9 +59,9 @@ var foregroundS = g.append("path")
 
 
 function arcTweenS(newAngle) {
-    return function (d) {
+    return function(d) {
         var interpolate = d3.interpolate(d.endAngle, newAngle);
-        return function (t) {
+        return function(t) {
             d.endAngle = interpolate(t);
             return arcS(d);
         };
@@ -77,9 +84,9 @@ var foregroundM = g.append("path")
     .attr("d", arcM);
 
 function arcTweenM(newAngle) {
-    return function (d) {
+    return function(d) {
         var interpolate = d3.interpolate(d.endAngle, newAngle);
-        return function (t) {
+        return function(t) {
             d.endAngle = interpolate(t);
             return arcM(d);
         };
@@ -102,25 +109,67 @@ var foregroundH = g.append("path")
     .attr("d", arcH);
 
 function arcTweenH(newAngle) {
-    return function (d) {
+    return function(d) {
         var interpolate = d3.interpolate(d.endAngle, newAngle);
-        return function (t) {
+        return function(t) {
             d.endAngle = interpolate(t);
             return arcH(d);
         };
     };
 }
 
-d3.interval(function () {
-    foregroundS.transition()
-        .duration(750)
-        .attrTween("d", arcTweenS((1 - data[2] / 60) * tau));
 
-    foregroundM.transition()
-        .duration(750)
-        .attrTween("d", arcTweenM((1 - data[1] / 60) * tau));
+function draw() {
+    d3.interval(function() {
+        foregroundS.transition()
+            .duration(750)
+            .attrTween("d", arcTweenS((1 - (data[2] - 1) / 60) * tau));
 
-    foregroundH.transition()
-        .duration(750)
-        .attrTween("d", arcTweenH((1 - data[0] / totalHours) * tau));
-}, 1000);
+        foregroundM.transition()
+            .duration(750)
+            .attrTween("d", arcTweenM((1 - data[1] / 60) * tau));
+
+        foregroundH.transition()
+            .duration(750)
+            .attrTween("d", arcTweenH((data[0] / totalHours) * tau));
+    }, 1000);
+}
+
+
+// function draw() {
+//     foregroundS.transition()
+//         .attrTween("d", arcTweenS((1 - data[2] / 60) * tau));
+
+//     foregroundM.transition()
+//         .attrTween("d", arcTweenM((1 - data[1] / 60) * tau));
+
+//     foregroundH.transition()
+//         .attrTween("d", arcTweenH((data[0] / totalHours) * tau));
+
+//     requestAnimationFrame(draw);
+// }
+
+iField.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const time = iField.querySelector('input').value;
+    // add regex
+    const m = time.match(/[0-9]+\:[0-9]/);
+    if (m === null) {
+        alert('Please enter correct time format');
+        return;
+    }
+
+    theTime = new Date(nowYear + '-' + nowMonth + '-' + nowDate + ' ' + time).getTime();
+    now = new Date().getTime();
+    distance = theTime - now;
+    totalHours = (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+    if (totalHours < 1) {
+        totalHours = 1;
+    }
+    document.querySelector('body').style.backgroundImage = '';
+
+
+    counter();
+    draw();
+
+});
