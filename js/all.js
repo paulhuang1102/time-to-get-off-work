@@ -160,6 +160,11 @@ iField.addEventListener('submit', function(e) {
     }
 
     theTime = new Date(nowYear + '-' + nowMonth + '-' + nowDate + ' ' + time).getTime();
+
+    if (new Date().getHours() > 12)
+    {
+        theTime += 86400 * 1000;
+    }
     now = new Date().getTime();
     distance = theTime - now;
     totalHours = (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);

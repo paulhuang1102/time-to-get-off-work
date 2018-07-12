@@ -3,9 +3,6 @@
     "version": "1.0.0",
     "description": "a clock to counter down",
     "main": "main.js",
-    "scripts": {
-        "start": "electron main.js"
-    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/paulhuang1102/time-to-get-off-work.git"
@@ -15,8 +12,5 @@
     "bugs": {
         "url": "https://github.com/paulhuang1102/time-to-get-off-work/issues"
     },
-    "homepage": "https://github.com/paulhuang1102/time-to-get-off-work#readme",
-    "dependencies": {
-        "electron": "^1.7.9"
-    }
+    "homepage": "https://github.com/paulhuang1102/time-to-get-off-work#readme"
 }
